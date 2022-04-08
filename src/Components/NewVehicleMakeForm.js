@@ -1,64 +1,58 @@
 import React, { useState } from "react";
-import {  observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { useVehicleMakeStore } from "../Stores/VehicleMakeContext";
+import Navigation from "./Navigation";
 
 export const NewVehicleMakeForm = observer(() => {
   const [name, setName] = useState("");
   const [abrv, setAbrv] = useState("");
   const [error, setError] = useState("");
-  
+
   const vehicleMakeStore = useVehicleMakeStore();
 
   const onChangeName = (e) => {
     setName(e.target.value);
-    setError("")
+    setError("");
   };
   const onChangeAbrv = (e) => {
     setAbrv(e.target.value);
-    setError("")
+    setError("");
   };
 
-  const validateAll =()=>{
-    if(name.length<1 || abrv.length<1) 
-    {setError("Both fields are required!")
-      return true}
-    
-  }
+  const validateAll = () => {
+    if (name.length < 1 || abrv.length < 1) {
+      setError("Both fields are required!");
+      return true;
+    }
+  };
 
   const addVehicleMake = (e) => {
     e.preventDefault();
-   if(!validateAll()){
+    if (!validateAll()) {
+      vehicleMakeStore.createVehicleMake(name, abrv);
+      setName("");
+      setAbrv("");
+      setError("");
+      vehicleMakeStore.getAllVehiclesMake();
 
-    vehicleMakeStore.createVehicleMake(name, abrv);
-    setName("");
-    setAbrv("");
-    setError("")
-    vehicleMakeStore.getAllVehiclesMake();
-
-    alert("create done")
+      alert("create done");
     }
   };
 
   return (
-    <div className="vehicleMakeFormContainer redBackground">
-      <h2>Create new Vehicle Make</h2>
-      <form onSubmit={ addVehicleMake}>
-        
-        <label >Name for Vehicle Make: </label>
-        <input
-          value={name}
-          onChange={onChangeName}
-          type="text"
-        />
-        <label >Abbreviation for Vehicle Make:</label>
-        <input
-          value={abrv}
-          onChange={onChangeAbrv}
-          type="text"
-        />
-        <div className="alertError">{error}</div>
-        <button type="submit">Add Vehicle</button>
-      </form>
-    </div>
+    <>
+      <Navigation />
+      <div className="vehicleMakeFormContainer redBackground">
+        <h2>Create new Vehicle Make</h2>
+        <form onSubmit={addVehicleMake}>
+          <label>Name for Vehicle Make: </label>
+          <input value={name} onChange={onChangeName} type="text" />
+          <label>Abbreviation for Vehicle Make:</label>
+          <input value={abrv} onChange={onChangeAbrv} type="text" />
+          <div className="alertError">{error}</div>
+          <button type="submit">Add Vehicle</button>
+        </form>
+      </div>
+    </>
   );
 });

@@ -10,7 +10,7 @@ const Home = () => {
         Create new Vehicle model
       </Link>
       <Link className="homeLink greenBackground" to="/vehiclemake">
-        Vehicle make
+        Vehicle makes
       </Link>
       <Link className="homeLink blueBackground" to="/vehiclemodel">
         Vehicle models

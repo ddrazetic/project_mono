@@ -46,6 +46,20 @@ footer
         cursor: pointer
         &:hover
             opacity: 0.7
+.navigation
+    display: flex
+    flex-direction: row
+    margin: 0 auto
+    .navigationLink
+        padding: 7px
+        // height: 10rem
+        text-decoration: none
+        color: white
+        // align-items: center
+        text-align: center
+        font-size: clamp(1rem, 3vw, 1.7rem)
+        text-shadow: 1px 1px 1px #7c7c7c
+        cursor: pointer
 
 .redBackground
     background-color: #f3a1a1ad
@@ -111,11 +125,13 @@ footer
             cursor: pointer
             &:hover
                 opacity: 0.7
+            &:focus
+                opacity: 1
         .alertError
             text-align: center
 
 .headerList
-    padding: 3rem
+    padding-top: 2rem
     font-size: clamp(2rem, 5vw, 3.5rem)
     color: #a7e07796
     text-align: center
@@ -134,9 +150,10 @@ footer
         padding: 10px
         border: 1px solid #a7e07796
         text-align: left
-        font-size: clamp(1rem, 4vw, 3rem)
+        font-size: clamp(1rem, 3vw, 2.5rem)
+        // min-width: 5rem
     button
-        font-size: clamp(1rem, 2.5vw, 2.2rem)
+        font-size: clamp(1rem, 2vw, 1.5rem)
         border: none
         background-color: transparent
         font-weight: bold
@@ -146,15 +163,56 @@ footer
     .deleteButton
         color: #f34040
     .updateButton
-        color: #2856b9
-
+        color: #4a881796
+.paginationContainer
+    display: flex
+    width: fit-content
+    gap: 10px
+    margin: 0 auto 3rem
 .pagination
     display: flex
     gap: 10px
     list-style: none
-    justify-content: center
+    // justify-content: center
+
+    // margin-bottom: 3rem
 .page-item
     padding: 5px
     border: 0.5px solid #a7e07796
+    cursor: pointer
 .page-item-active
     background-color: #a7e07796
+
+.formSearch
+    display: flex
+    justify-content: center
+    flex-direction: column
+    margin: 0 auto
+    width: 15rem
+    label
+        text-align: center
+        margin-bottom: 0.5rem
+        color: #3e800996
+        font-size: 1.5rem
+    input
+        border: 2px solid #a7e07796
+        font-size: 1.2rem
+        color: #3e800996
+        text-align: center
+    button
+        // margin-top: 0.5rem
+        width: 10rem
+        margin: 0.5rem auto
+        padding: 0.3rem
+        background-color: #a7e07796
+        border: 2px solid #3e800996
+        color: #3e800996
+        font-size: 1.5rem
+        cursor: pointer
+        // box-shadow: 10px 10px 8px #89c787
+
+.selectForm
+    display: flex
+    margin: 0 auto
+    border: 2px solid #a7e07796
+    padding: 2px

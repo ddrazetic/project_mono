@@ -1,24 +1,25 @@
-import React, { useState } from "react";
-import { useVehicleMakeStore } from "../Stores/VehicleMakeContext";
-import { useObserver } from "mobx-react";
+import React from "react";
+import { observer } from "mobx-react";
+import Navigation from "./Navigation";
 
-export const NewVehicleModelForm = () => {
-  const [name, setName] = useState("");
-  const [abrv, setAbrv] = useState("");
-  const [makeId, setMakeId] = useState("");
+export const NewVehicleModelForm = observer(() => {
+  // const [name, setName] = useState("");
+  // const [abrv, setAbrv] = useState("");
+  // const [makeId, setMakeId] = useState("");
 
-  const vehicleMakeStore = useVehicleMakeStore();
+  // const vehicleMakeStore = useVehicleMakeStore();
 
-  const createVehicleModel = () => {
-    vehicleMakeStore.addVehicleModel(name, abrv, makeId);
-    setName("");
-    setAbrv("");
-    setMakeId("");
-  };
+  // const createVehicleModel = () => {
+  //   vehicleMakeStore.addVehicleModel(name, abrv, makeId);
+  //   setName("");
+  //   setAbrv("");
+  //   setMakeId("");
+  // };
 
-  return useObserver(() => (
+  return (
     <>
-      <input
+      <Navigation />
+      {/* <input
         value={name}
         onChange={(e) => setName(e.target.value)}
         type="text"
@@ -40,7 +41,7 @@ export const NewVehicleModelForm = () => {
           </option>
         ))}{" "}
       </select>
-      <button onClick={() => createVehicleModel()}>Add Vehicle</button>
+      <button onClick={() => createVehicleModel()}>Add Vehicle</button> */}
     </>
-  ));
-};
+  );
+});
