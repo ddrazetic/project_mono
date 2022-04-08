@@ -1,0 +1,46 @@
+{
+  "name": "project_mono",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/react": "^11.0.0",
+    "@testing-library/user-event": "^12.0.0",
+    "axios": "^0.26.1",
+    "baasic-sdk-reactjs": "^2.0.2-beta01",
+    "mobx": "^6.5.0",
+    "mobx-react": "^7.3.0",
+    "nanoid": "^3.3.2",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-paginate": "^8.1.2",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "4.0.3",
+    "react-validation": "^3.0.7",
+    "web-vitals": "^2.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
