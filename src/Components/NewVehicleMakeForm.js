@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { useVehicleMakeStore } from "../Stores/VehicleMakeContext";
 import Navigation from "./Navigation";
+import { toast } from "react-toastify";
 
 export const NewVehicleMakeForm = observer(() => {
   const [name, setName] = useState("");
@@ -25,17 +26,23 @@ export const NewVehicleMakeForm = observer(() => {
       return true;
     }
   };
+  const notifyCreateMake = () =>
+    toast(
+      <p>
+        Created Vehicle make! <br /> Name: <strong>{name}</strong> Abrv:{" "}
+        <strong>{abrv}</strong>
+      </p>
+    );
 
   const addVehicleMake = (e) => {
     e.preventDefault();
     if (!validateAll()) {
       vehicleMakeStore.createVehicleMake(name, abrv);
+      notifyCreateMake();
       setName("");
       setAbrv("");
       setError("");
       vehicleMakeStore.getAllVehiclesMake();
-
-      alert("create done");
     }
   };
 

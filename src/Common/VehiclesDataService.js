@@ -5,7 +5,6 @@ class VehiclesDataService {
   get(params) {
     // console.log(`${API_URL}/vehiclemake?`, params);
     return axios.get(API_URL + "/vehiclemake?" + params);
-    // return axios.get(`${API_URL}/vehiclemake?`, paramss);
   }
   getOne(id) {
     return axios.get(`${API_URL}/vehiclemake/${id}`);

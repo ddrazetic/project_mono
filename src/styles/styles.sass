@@ -1,33 +1,41 @@
+$nav-color: #cfcfcf
+$text-shadow: #7c7c7c
+$text-red: #a06262
+$background-green: #a7e07796
+$text-green: #3e800996
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap')
 *
+    font-family: 'Roboto', sans-serif
     margin: 0
     padding: 0
 .siteContent
     height: 100vh
     display: flex
     flex-direction: column
+// nav and footer
 nav
     text-align: center
-    background-color: #cfcfcf
+    background-color: $nav-color
     box-shadow: 10px 10px 8px #b6b6b6
     padding: 1rem
     .navTitle
         font-size: clamp(3rem, 5vw, 5rem)
-        text-shadow: 2px 2px #7c7c7c
+        text-shadow: 2px 2px $text-shadow
         color: white
         text-decoration: none
 footer
     text-align: center
-    background-color: #cfcfcf
+    background-color: $nav-color
     padding: 2rem
     margin-top: auto
 
     .footerText
         color: white
-        text-shadow: 0.5px 0.5px 0.5px #7c7c7c
+        text-shadow: 0.5px 0.5px 0.5px $text-shadow
 
+// homepage
 .homeContainer
     display: grid
-    // height: 100vh
     grid-template-columns: auto auto
     gap: 0.9rem
     margin: 0.9rem
@@ -37,46 +45,48 @@ footer
 
         height: 10rem
         text-decoration: none
-        color: white
+        color: #ffffff
         display: grid
         align-items: center
         text-align: center
         font-size: clamp(2rem, 5vw, 3.5rem)
-        text-shadow: 2px 2px #7c7c7c
+        text-shadow: 0 0 3px #919191, 0 0 5px #525252
         cursor: pointer
         &:hover
             opacity: 0.7
+// navigation in pages
 .navigation
-    display: flex
-    flex-direction: row
+    display: grid
+    grid-template-columns: auto auto auto auto
+    // display: flex
+    // flex-direction: row
     margin: 0 auto
     .navigationLink
         padding: 7px
-        // height: 10rem
         text-decoration: none
         color: white
-        // align-items: center
         text-align: center
         font-size: clamp(1rem, 3vw, 1.7rem)
-        text-shadow: 1px 1px 1px #7c7c7c
+        text-shadow: 0 0 2px #474747, 0 0 3px #525252
         cursor: pointer
-
+// different color backgrounds with shadow
 .redBackground
     background-color: #f3a1a1ad
     box-shadow: 10px 10px 8px #e6a8a8
-    text-shadow: 3px 3px 5px #8f3737
+    text-shadow: 3px 3px 5px #832d2dad
 .yellowBackground
     background-color: #e6e78fad
     box-shadow: 10px 10px 8px #c9d17f
     text-shadow: 3px 3px 5px#708018
 .greenBackground
-    background-color: #a7e07796
+    background-color: $background-green
     box-shadow: 10px 10px 8px #89c787
     text-shadow: 3px 3px 5px #2a8f26
 .blueBackground
     background-color: #7e96e2ad
     box-shadow: 10px 10px 8px #6d95e0
     text-shadow: 3px 3px 5px #2438a7
+//  create form container
 .vehicleMakeFormContainer
     margin: 5rem auto
 
@@ -84,7 +94,7 @@ footer
         padding: 2rem
         font-size: clamp(2rem, 5vw, 3.5rem)
 
-        color: #a06262
+        color: $text-red
         text-shadow: 3px 3px 5px #f7dfdfad
     form
         display: grid
@@ -92,25 +102,21 @@ footer
         justify-content: center
         grid-template-columns: 100%
         padding: 0 clamp(1rem, 5vw, 7rem)
-        // width: 400px
-        // display: flex
-        // flex-direction: column
-        // gap: 2rem
         input
-            border: solid 2px #a06262
+            border: solid 2px $text-red
             height: 2rem
             font-size: 1.7rem
             text-align: center
             background-color: #f7dfdfad
-            color: #a06262
+            color: $text-red
             &:focus
                 outline: none
-                border: solid 2.5px #a06262
+                border: solid 2.5px $text-red
 
         label
             margin: 0 auto
             font-size: 1.5rem
-            color: #a06262
+            color: $text-red
             text-shadow: 3px 3px 5px #f7dfdfad
         button
 
@@ -120,7 +126,7 @@ footer
             padding: 1rem 6rem
             background-color: #f7dfdfad
             font-size: 1.5rem
-            color: #a06262
+            color: $text-red
             text-shadow: 3px 3px 5px #f7dfdfad
             cursor: pointer
             &:hover
@@ -129,15 +135,41 @@ footer
                 opacity: 1
         .alertError
             text-align: center
-
+// vehicle make list 
 .headerList
     padding-top: 2rem
     font-size: clamp(2rem, 5vw, 3.5rem)
-    color: #a7e07796
+    color: $text-green
     text-align: center
+// search in table
+.formSearch
+    display: flex
+    justify-content: center
+    flex-direction: column
+    margin: 0 auto
+    width: 15rem
+    label
+        text-align: center
+        margin-bottom: 0.5rem
+        color: $text-green
+        font-size: 1.5rem
+    input
+        border: 2px solid $background-green
+        font-size: 1.2rem
+        color: $text-green
+        text-align: center
+    button
+        width: 10rem
+        margin: 0.5rem auto
+        padding: 0.3rem
+        background-color: $background-green
+        border: 2px solid $text-green
+        color: $text-green
+        font-size: 1.5rem
+        cursor: pointer
+// table
 .table
-    // border: #a7e07796 1px solid
-    background-color: #a7e07796
+    background-color: $background-green
     margin: 0 auto 2rem
     box-shadow: 10px 10px 8px #89c787
     tbody
@@ -148,10 +180,9 @@ footer
             background: #ffffff
     td, th
         padding: 10px
-        border: 1px solid #a7e07796
+        border: 1px solid $background-green
         text-align: left
         font-size: clamp(1rem, 3vw, 2.5rem)
-        // min-width: 5rem
     button
         font-size: clamp(1rem, 2vw, 1.5rem)
         border: none
@@ -164,6 +195,7 @@ footer
         color: #f34040
     .updateButton
         color: #4a881796
+// pagination in table 
 .paginationContainer
     display: flex
     width: fit-content
@@ -173,46 +205,78 @@ footer
     display: flex
     gap: 10px
     list-style: none
-    // justify-content: center
 
-    // margin-bottom: 3rem
 .page-item
     padding: 5px
-    border: 0.5px solid #a7e07796
+    border: 0.5px solid $background-green
     cursor: pointer
 .page-item-active
-    background-color: #a7e07796
-
-.formSearch
-    display: flex
-    justify-content: center
-    flex-direction: column
-    margin: 0 auto
-    width: 15rem
-    label
-        text-align: center
-        margin-bottom: 0.5rem
-        color: #3e800996
-        font-size: 1.5rem
-    input
-        border: 2px solid #a7e07796
-        font-size: 1.2rem
-        color: #3e800996
-        text-align: center
-    button
-        // margin-top: 0.5rem
-        width: 10rem
-        margin: 0.5rem auto
-        padding: 0.3rem
-        background-color: #a7e07796
-        border: 2px solid #3e800996
-        color: #3e800996
-        font-size: 1.5rem
-        cursor: pointer
-        // box-shadow: 10px 10px 8px #89c787
-
+    background-color: $background-green
 .selectForm
-    display: flex
-    margin: 0 auto
-    border: 2px solid #a7e07796
+    border: 2px solid $background-green
     padding: 2px
+    cursor: pointer
+.buttonOrder
+    border: 2px solid $background-green
+    padding: 2px
+    background-color: white
+    cursor: pointer
+
+// edit page
+.headerEdit
+    font-size: 2.3rem
+    text-align: center
+    color: $text-red
+    text-shadow: 3px 3px 5px #f7dfdfad
+.buttonClose
+    border: none
+    background-color: transparent
+    font-size: 2rem
+    cursor: pointer
+    color: $text-red
+    text-shadow: 3px 3px 5px #f7dfdfad
+
+.editVehicleMake
+    display: grid
+    grid-template-columns: 1fr
+    gap: 1rem
+    padding: 1rem
+    input
+        border: solid 2px $text-red
+        height: 2rem
+        font-size: 1.7rem
+        text-align: center
+        background-color: #f7dfdfad
+        color: $text-red
+        &:focus
+            outline: none
+            border: solid 2.5px $text-red
+
+    label
+        margin: 0 auto
+        font-size: 1.5rem
+        color: $text-red
+        text-shadow: 3px 3px 5px #f7dfdfad
+    button
+
+        margin: 0 auto
+        border: none
+        margin-bottom: 2rem
+        padding: 1rem 6rem
+        background-color: #f7dfdfad
+        font-size: 1.5rem
+        color: $text-red
+        text-shadow: 3px 3px 5px #f7dfdfad
+        cursor: pointer
+        &:hover
+            opacity: 0.7
+        &:focus
+            opacity: 1
+    .alertError
+        text-align: center
+
+@media only screen and (max-width: 768px)
+    .homeContainer
+        grid-template-columns: auto
+    .navigation
+        grid-template-columns: auto auto

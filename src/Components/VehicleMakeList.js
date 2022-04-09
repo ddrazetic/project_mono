@@ -3,10 +3,39 @@ import { useVehicleMakeStore } from "../Stores/VehicleMakeContext";
 import { observer } from "mobx-react";
 import ReactPaginate from "react-paginate";
 import Navigation from "./Navigation";
+import Modal from "react-modal";
+import { toast } from "react-toastify";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    backgroundColor: "#ebb7b7",
+    boxShadow: "10px 10px 8px #e6a8a8",
+    textShadow: "3px 3px 5px #8f3737",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
 const VehicleMakeList = observer(() => {
   const vehicleMakeStore = useVehicleMakeStore();
   const [search, setSearch] = useState("");
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
+  const [abrv, setAbrv] = useState("");
+  const [error, setError] = useState("");
+
+  const onChangeName = (e) => {
+    setName(e.target.value);
+    setError("");
+  };
+  const onChangeAbrv = (e) => {
+    setAbrv(e.target.value);
+    setError("");
+  };
 
   useEffect(() => {
     vehicleMakeStore.setDefaultValuesMake();
@@ -28,6 +57,49 @@ const VehicleMakeList = observer(() => {
     vehicleMakeStore.page = currentPage;
     vehicleMakeStore.getAllVehiclesMake();
   };
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const validateAll = () => {
+    if (name.length < 1 || abrv.length < 1) {
+      setError("Both fields are required!");
+      return true;
+    }
+  };
+
+  const setCurrentMake = (id, name, abrv) => {
+    setName(name);
+    setId(id);
+    setAbrv(abrv);
+    openModal();
+  };
+  const updateMake = (e) => {
+    e.preventDefault();
+    if (!validateAll()) {
+      vehicleMakeStore.updateVehicleMake(id, name, abrv);
+      setName("");
+      setAbrv("");
+      setError("");
+      closeModal();
+      notifyUpdateMake();
+    }
+  };
+  const deleteMake = (e, id) => {
+    e.preventDefault();
+    vehicleMakeStore.deleteVehicleMake(id);
+    notifyDeleteMake();
+  };
+
+  const notifyDeleteMake = () => toast("Deleted Vehicle make!");
+  const notifyUpdateMake = () => toast("Updated Vehicle make!");
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+  Modal.setAppElement("#root");
 
   return (
     <>
@@ -61,14 +133,22 @@ const VehicleMakeList = observer(() => {
               <td>{vehicle.name}</td>
               <td>{vehicle.abrv}</td>
               <td>
-                <button className="updateButton">Update</button>
+                <button
+                  onClick={() =>
+                    setCurrentMake(vehicle.id, vehicle.name, vehicle.abrv)
+                  }
+                  className="updateButton"
+                >
+                  Update
+                </button>
               </td>
               <td>
                 <button
                   className="deleteButton"
-                  onClick={() => {
-                    vehicleMakeStore.deleteVehicleMake(vehicle.id);
-                  }}
+                  onClick={(e) => deleteMake(e, vehicle.id)}
+                  // onClick={() => {
+                  //   vehicleMakeStore.deleteVehicleMake(vehicle.id);
+                  // }}
                 >
                   Delete
                 </button>
@@ -111,7 +191,32 @@ const VehicleMakeList = observer(() => {
           <option value={20}>20</option>
           <option value={30}>30</option>
         </select>
+        <button
+          className="buttonOrder"
+          onClick={() => vehicleMakeStore.setOrder()}
+        >
+          {vehicleMakeStore.order ? "ASC" : "DESC"}
+        </button>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <button className="buttonClose" onClick={closeModal}>
+          X
+        </button>
+        <h2 className="headerEdit">Update this make</h2>
+        <form className="editVehicleMake" onSubmit={updateMake}>
+          <label>Name for Vehicle Make: </label>
+          <input value={name} onChange={onChangeName} type="text" />
+          <label>Abbreviation for Vehicle Make:</label>
+          <input value={abrv} onChange={onChangeAbrv} type="text" />
+          <div className="alertError">{error}</div>
+          <button type="submit">Add Vehicle</button>
+        </form>
+      </Modal>
     </>
   );
 });

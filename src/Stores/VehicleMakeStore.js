@@ -1,11 +1,12 @@
-import vehiclesService from "../Common/vehicles.service";
+import vehiclesService from "../Common/VehiclesDataService";
 import { makeAutoObservable, runInAction } from "mobx";
 
 class createVehicleMakeStore {
   vehicleMake = [];
-  countryData = [];
+  VehicleModel = [];
   rpp = 5;
   page = 1;
+  order = true;
   searchInput = "";
   state = "initial";
   totalVehicleMake = 1;
@@ -16,11 +17,16 @@ class createVehicleMakeStore {
   }
 
   setParams = (params) => {
-    // console.log(this.searchInput);
     if (this.searchInput) {
       params.append("searchQuery", this.searchInput);
       // console.log(params.searchQuery);
     }
+    if (this.order) params.append("sort", "name|asc");
+    else params.append("sort", "name|desc");
+  };
+  setOrder = () => {
+    this.order = !this.order;
+    this.getAllVehiclesMake();
   };
 
   getAllVehiclesMake = async () => {
@@ -29,8 +35,8 @@ class createVehicleMakeStore {
       const params = new URLSearchParams({
         rpp: this.rpp,
         page: this.page,
-        sort: "name|desc",
       });
+      // this.setOrder(params);
       this.setParams(params);
 
       const data = await this.vehiclesService.get(params);
@@ -50,6 +56,7 @@ class createVehicleMakeStore {
     this.rpp = 5;
     this.page = 1;
     this.searchInput = "";
+    this.order = true;
   };
 
   setRppVehicleMake = (value) => {
@@ -92,6 +99,7 @@ class createVehicleMakeStore {
         this.state = "error";
       });
     }
+    this.getAllVehiclesMake();
   };
   deleteVehicleMake = async (id) => {
     try {

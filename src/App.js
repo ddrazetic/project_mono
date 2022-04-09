@@ -6,6 +6,8 @@ import { VehicleMakeProvider } from "./Stores/VehicleMakeContext";
 import createVehicleMakeStore from "./Stores/VehicleMakeStore";
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./Pages/Home";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const store = new createVehicleMakeStore();
 function App() {
   return (
@@ -27,7 +29,17 @@ function App() {
         {/* <p>MODELI:</p> */}
         {/* <VehicleModelList />
       <NewVehicleModelForm /> */}
-
+        <ToastContainer
+          position="bottom-center"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <footer>
           <p className="footerText">copyrights @ company Vehicles</p>
         </footer>
