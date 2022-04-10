@@ -5,7 +5,8 @@ import ReactPaginate from "react-paginate";
 import Navigation from "./Navigation";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 const customStyles = {
   content: {
     top: "50%",
@@ -27,7 +28,8 @@ const VehicleMakeList = observer(() => {
   const [id, setId] = useState("");
   const [abrv, setAbrv] = useState("");
   const [error, setError] = useState("");
-
+  const navigate = useNavigate();
+  // const history = useHistory();
   const onChangeName = (e) => {
     setName(e.target.value);
     setError("");
@@ -43,7 +45,8 @@ const VehicleMakeList = observer(() => {
   }, [vehicleMakeStore]);
   const submitSearch = (e) => {
     e.preventDefault();
-    vehicleMakeStore.searchInput = `WHERE name LIKE '%${search}%'`;
+    // vehicleMakeStore.searchInput = `WHERE name LIKE '%${search}%'`;
+    vehicleMakeStore.setSearchinputMake(`WHERE name LIKE '%${search}%'`);
     vehicleMakeStore.getAllVehiclesMake();
   };
   const setRpp = (e) => {
@@ -62,6 +65,11 @@ const VehicleMakeList = observer(() => {
   const openModal = () => {
     setIsOpen(true);
   };
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+  Modal.setAppElement("#root");
 
   const validateAll = () => {
     if (name.length < 1 || abrv.length < 1) {
@@ -93,13 +101,9 @@ const VehicleMakeList = observer(() => {
     notifyDeleteMake();
   };
 
-  const notifyDeleteMake = () => toast("Deleted Vehicle make!");
+  const notifyDeleteMake = () =>
+    toast("Deleted Vehicle make and all of his models!");
   const notifyUpdateMake = () => toast("Updated Vehicle make!");
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-  Modal.setAppElement("#root");
 
   return (
     <>
@@ -125,6 +129,7 @@ const VehicleMakeList = observer(() => {
             <th>Abrv</th>
             <th></th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -146,11 +151,30 @@ const VehicleMakeList = observer(() => {
                 <button
                   className="deleteButton"
                   onClick={(e) => deleteMake(e, vehicle.id)}
-                  // onClick={() => {
-                  //   vehicleMakeStore.deleteVehicleMake(vehicle.id);
-                  // }}
                 >
                   Delete
+                </button>
+              </td>
+              <td>
+                <button
+                  onClick={() => {
+                    vehicleMakeStore.setSelectedName(vehicle.id, vehicle.name);
+                    navigate("/createvehiclemodel");
+                  }}
+                  className="updateButton"
+                >
+                  Create Models
+                </button>
+              </td>
+              <td>
+                <button
+                  onClick={() => {
+                    vehicleMakeStore.setSelectedName(vehicle.id, vehicle.name);
+                    navigate("/vehiclemodel");
+                  }}
+                  className="updateButton"
+                >
+                  Models -&gt;
                 </button>
               </td>
             </tr>
@@ -198,6 +222,7 @@ const VehicleMakeList = observer(() => {
           {vehicleMakeStore.order ? "ASC" : "DESC"}
         </button>
       </div>
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -214,7 +239,7 @@ const VehicleMakeList = observer(() => {
           <label>Abbreviation for Vehicle Make:</label>
           <input value={abrv} onChange={onChangeAbrv} type="text" />
           <div className="alertError">{error}</div>
-          <button type="submit">Add Vehicle</button>
+          <button type="submit">Update</button>
         </form>
       </Modal>
     </>

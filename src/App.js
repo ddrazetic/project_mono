@@ -26,9 +26,6 @@ function App() {
           <Route path="/createvehiclemodel" element={<NewVehicleModelForm />} />
         </Routes>
 
-        {/* <p>MODELI:</p> */}
-        {/* <VehicleModelList />
-      <NewVehicleModelForm /> */}
         <ToastContainer
           position="bottom-center"
           autoClose={4000}

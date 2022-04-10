@@ -1,0 +1,173 @@
+.headerList
+    padding-top: 2rem
+    font-size: clamp(2rem, 5vw, 3.5rem)
+    color: $text-green
+    text-align: center
+.blueheader
+    color: #5e6dc4
+// search in table
+.formSearch
+    display: flex
+    justify-content: center
+    flex-direction: column
+    margin: 0 auto
+    width: 15rem
+    label
+        text-align: center
+        margin-bottom: 0.5rem
+        color: $text-green
+        font-size: 1.5rem
+    input,select
+        border: 2px solid $background-green
+        font-size: 1.2rem
+        color: $text-green
+        text-align: center
+    button
+        width: 10rem
+        margin: 0.5rem auto
+        padding: 0.3rem
+        background-color: $background-green
+        border: 2px solid $text-green
+        color: $text-green
+        font-size: 1.5rem
+        cursor: pointer
+.formSearchBlue
+    label
+        color: #5e6dc4
+    input,select
+        border: 2px solid #7e96e2ad
+        color: #5e6dc4
+    button
+        background-color: #7e96e2ad
+        border: 2px solid #5e6dc4
+        color: #5e6dc4
+// table
+.table
+    background-color: $background-green
+    margin: 0 auto 2rem
+    box-shadow: 10px 10px 8px #89c787
+    tbody
+        tr:nth-of-type(odd)
+            background: #eee
+
+        tr:nth-of-type(even)
+            background: #ffffff
+    td, th
+        padding: 10px
+        border: 1px solid $background-green
+        text-align: left
+        font-size: clamp(1rem, 3vw, 2.5rem)
+    button
+        font-size: clamp(1rem, 2vw, 1.5rem)
+        border: none
+        background-color: transparent
+        font-weight: bold
+        cursor: pointer
+        &:hover
+            color: black
+    .deleteButton
+        color: #f34040
+    .updateButton
+        color: #4a881796
+.tableBlue
+    background-color: #7e96e2ad
+    box-shadow: 10px 10px 8px #6d95e0
+
+    tbody
+        tr:nth-of-type(odd)
+            background: #eee
+
+        tr:nth-of-type(even)
+            background: #ffffff
+    td, th
+        border: 1px solid #7e96e2ad
+    .updateButton
+        color: #5e6dc4
+// pagination in table 
+.paginationContainer
+    display: flex
+    width: fit-content
+    gap: 10px
+    margin: 0 auto 3rem
+.pagination
+    display: flex
+    gap: 10px
+    list-style: none
+
+.page-item
+    padding: 5px
+    border: 0.5px solid $background-green
+    cursor: pointer
+.page-item-blue
+    border: 0.5px solid #7e96e2ad
+.page-item-active
+    background-color: $background-green
+.page-item-active-blue
+    background-color: #7e96e2ad
+.selectForm
+    border: 2px solid $background-green
+    padding: 2px
+    cursor: pointer
+.selectForm-blue
+    border: 2px solid #7e96e2ad
+
+.buttonOrder
+    border: 2px solid $background-green
+    padding: 2px
+    background-color: white
+    cursor: pointer
+.buttonOrderBlue
+    border: 2px solid #7e96e2ad
+
+// edit page
+.headerEdit
+    font-size: 2.3rem
+    text-align: center
+    color: $text-red
+    text-shadow: 3px 3px 5px #f7dfdfad
+.buttonClose
+    border: none
+    background-color: transparent
+    font-size: 2rem
+    cursor: pointer
+    color: $text-red
+    text-shadow: 3px 3px 5px #f7dfdfad
+
+.editVehicleMake
+    display: grid
+    grid-template-columns: 1fr
+    gap: 1rem
+    padding: 1rem
+    input
+        border: solid 2px $text-red
+        height: 2rem
+        font-size: 1.7rem
+        text-align: center
+        background-color: #f7dfdfad
+        color: $text-red
+        &:focus
+            outline: none
+            border: solid 2.5px $text-red
+
+    label
+        margin: 0 auto
+        font-size: 1.5rem
+        color: $text-red
+        text-shadow: 3px 3px 5px #f7dfdfad
+    button
+
+        margin: 0 auto
+        border: none
+        margin-bottom: 2rem
+        padding: 1rem 6rem
+        background-color: #f7dfdfad
+        font-size: 1.5rem
+        color: $text-red
+        text-shadow: 3px 3px 5px #f7dfdfad
+        cursor: pointer
+        &:hover
+            opacity: 0.7
+        &:focus
+            opacity: 1
+    .alertError
+        text-align: center

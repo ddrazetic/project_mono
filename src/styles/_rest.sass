@@ -1,0 +1,81 @@
+*
+    font-family: 'Roboto', sans-serif
+    margin: 0
+    padding: 0
+.siteContent
+    height: 100vh
+    display: flex
+    flex-direction: column
+
+// nav and footer
+nav
+    text-align: center
+    background-color: $nav-color
+    box-shadow: 10px 10px 8px #b6b6b6
+    padding: 1rem
+    .navTitle
+        font-size: clamp(3rem, 5vw, 5rem)
+        text-shadow: 2px 2px $text-shadow
+        color: white
+        text-decoration: none
+footer
+    text-align: center
+    background-color: $nav-color
+    padding: 2rem
+    margin-top: auto
+
+    .footerText
+        color: white
+        text-shadow: 0.5px 0.5px 0.5px $text-shadow
+
+// homepage
+.homeContainer
+    display: grid
+    grid-template-columns: auto auto
+    gap: 0.9rem
+    margin: 0.9rem
+    margin-top: 5rem
+
+    .homeLink
+
+        height: 10rem
+        text-decoration: none
+        color: #ffffff
+        display: grid
+        align-items: center
+        text-align: center
+        font-size: clamp(2rem, 5vw, 3.5rem)
+        text-shadow: 0 0 3px #919191, 0 0 5px #525252
+        cursor: pointer
+        &:hover
+            opacity: 0.7
+// navigation in pages
+.navigation
+    display: grid
+    grid-template-columns: auto auto auto auto
+    margin: 0 auto
+    .navigationLink
+        padding: 7px
+        text-decoration: none
+        color: white
+        text-align: center
+        font-size: clamp(1rem, 3vw, 1.7rem)
+        text-shadow: 0 0 2px #474747, 0 0 3px #525252
+        cursor: pointer
+// different color backgrounds with shadow
+.redBackground
+    background-color: #f3a1a1ad
+    box-shadow: 10px 10px 8px #e6a8a8
+    text-shadow: 3px 3px 5px #832d2dad
+.yellowBackground
+    background-color: #e6e78fad
+    box-shadow: 10px 10px 8px #c9d17f
+    text-shadow: 3px 3px 5px#708018
+.greenBackground
+    background-color: $background-green
+    box-shadow: 10px 10px 8px #89c787
+    text-shadow: 3px 3px 5px #2a8f26
+.blueBackground
+    background-color: #7e96e2ad
+    box-shadow: 10px 10px 8px #6d95e0
+    text-shadow: 3px 3px 5px #2438a7

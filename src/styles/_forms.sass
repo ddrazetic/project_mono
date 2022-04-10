@@ -1,0 +1,72 @@
+.vehicleMakeFormContainer
+    margin: 5rem auto
+
+    h2
+        padding: 2rem
+        font-size: clamp(2rem, 5vw, 3.5rem)
+
+        text-shadow: 3px 3px 5px #f7dfdfad
+    form
+        display: grid
+        gap: 2rem
+        justify-content: center
+        grid-template-columns: 100%
+        padding: 0 clamp(1rem, 5vw, 7rem)
+        input,select
+            height: 2rem
+            font-size: 1.7rem
+            text-align: center
+            height: 2.2rem
+
+            &:focus
+                outline: none
+                border: solid 2.5px $text-red
+
+        label
+            margin: 0 auto
+            font-size: 1.5rem
+
+            text-shadow: 3px 3px 5px #f7dfdfad
+        button
+
+            margin: 0 auto
+            border: none
+            margin-bottom: 2rem
+            padding: 1rem 6rem
+            font-size: 1.5rem
+            text-shadow: 3px 3px 5px #f7dfdfad
+            cursor: pointer
+            &:hover
+                opacity: 0.7
+            &:focus
+                opacity: 1
+        .alertError
+            text-align: center
+.redtext
+
+.yellowtext
+    h2
+        color: #b89f2f
+    form
+        label
+            color: #b89f2f
+        input,select
+            background-color: #e6e1cd83
+            color: #b89f2f
+            border: solid 2px #b89f2f
+        button
+            background-color: #e6e1cd83
+            color: #b89f2f
+.redtext
+    h2
+        color: $text-red
+    form
+        label
+            color: $text-red
+        input,select
+            border: solid 2px $text-red
+            background-color: #f7dfdfad
+            color: $text-red
+        button
+            background-color: #f7dfdfad
+            color: $text-red

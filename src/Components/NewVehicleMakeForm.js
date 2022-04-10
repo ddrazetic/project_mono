@@ -49,7 +49,7 @@ export const NewVehicleMakeForm = observer(() => {
   return (
     <>
       <Navigation />
-      <div className="vehicleMakeFormContainer redBackground">
+      <div className="vehicleMakeFormContainer redBackground redtext">
         <h2>Create new Vehicle Make</h2>
         <form onSubmit={addVehicleMake}>
           <label>Name for Vehicle Make: </label>
