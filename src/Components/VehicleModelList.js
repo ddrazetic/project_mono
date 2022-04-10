@@ -35,6 +35,17 @@ const VehicleModelList = observer(() => {
     setAbrv(e.target.value);
     setError("");
   };
+  const onChangeSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+    submitSearch(e.target.value);
+  };
+
+  const submitSearch = (searchI) => {
+    vehicleMakeStore.setSearchinputModel(`WHERE makeId LIKE '%${searchI}%'`);
+    vehicleMakeStore.getAllVehiclesModels();
+  };
+
   const [modalIsOpen, setIsOpen] = useState(false);
   function openModal() {
     setIsOpen(true);
@@ -50,19 +61,12 @@ const VehicleModelList = observer(() => {
     vehicleMakeStore.setSearchinputModel(
       `WHERE makeId LIKE '%${vehicleMakeStore.selectedMakeId}%'`
     );
-    // vehicleMakeStore.searchInputModel = `WHERE makeId LIKE '%${vehicleMakeStore.selectedMakeId}%'`;
     vehicleMakeStore.getAllVehiclesModels();
     vehicleMakeStore.setRppMax();
     vehicleMakeStore.getAllVehiclesMake();
 
     vehicleMakeStore.setSelectedName("", "");
   }, [vehicleMakeStore]);
-  const submitSearch = (e) => {
-    e.preventDefault();
-    vehicleMakeStore.searchInputModel = `WHERE makeId = '${search}'`;
-    vehicleMakeStore.setSearchinputModel(`WHERE makeId LIKE '%${search}%'`);
-    vehicleMakeStore.getAllVehiclesModels();
-  };
 
   const setRpp = (e) => {
     e.preventDefault();
@@ -112,13 +116,13 @@ const VehicleModelList = observer(() => {
     <>
       <Navigation />
       <h2 className="headerList blueheader">List of Vehicle Models</h2>
-      <form className="formSearch formSearchBlue" onSubmit={submitSearch}>
+      <form className="formSearch formSearchBlue">
         <label>Search by Make:</label>
         <select
           type="text"
           className="inputSearch"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={onChangeSearch}
         >
           {" "}
           <option value={""}>all Models</option>
@@ -129,9 +133,6 @@ const VehicleModelList = observer(() => {
             </option>
           ))}
         </select>
-        <button className="searchSubmit" type="submit">
-          Search
-        </button>
       </form>
 
       <table className="table tableBlue">
@@ -218,7 +219,7 @@ const VehicleModelList = observer(() => {
         </select>
         <button
           className="buttonOrder buttonOrderBlue"
-          onClick={() => vehicleMakeStore.setOrder()}
+          onClick={() => vehicleMakeStore.setOrderModel()}
         >
           {vehicleMakeStore.orderModel ? "ASC" : "DESC"}
         </button>

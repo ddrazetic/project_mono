@@ -50,14 +50,14 @@ export const NewVehicleMakeForm = observer(() => {
     <>
       <Navigation />
       <div className="vehicleMakeFormContainer redBackground redtext">
-        <h2>Create new Vehicle Make</h2>
+        <h2>Create a new Vehicle Make</h2>
         <form onSubmit={addVehicleMake}>
-          <label>Name for Vehicle Make: </label>
+          <label>Name: </label>
           <input value={name} onChange={onChangeName} type="text" />
-          <label>Abbreviation for Vehicle Make:</label>
+          <label>Abbreviation:</label>
           <input value={abrv} onChange={onChangeAbrv} type="text" />
           <div className="alertError">{error}</div>
-          <button type="submit">Add Vehicle</button>
+          <button type="submit">Add Make</button>
         </form>
       </div>
     </>

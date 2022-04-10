@@ -33,7 +33,7 @@ export const NewVehicleModelForm = observer(() => {
 
   const validateAll = () => {
     if (name.length < 1 || abrv.length < 1 || makeId.length < 1) {
-      setError("Both fields are required!");
+      setError("All fields are required!");
       return true;
     }
   };
@@ -62,9 +62,9 @@ export const NewVehicleModelForm = observer(() => {
       <Navigation />
 
       <div className="vehicleMakeFormContainer yellowBackground yellowtext">
-        <h2>Create new Vehicle Model</h2>
+        <h2>Create a new Vehicle Model</h2>
         <form onSubmit={addVehicleModel}>
-          <label>Models for Make: </label>
+          <label>Make: </label>
           <select value={makeId} onChange={onChangeMakeId} type="text">
             <option value={""}>Please choose Make!</option>
             {vehicleMakeStore.vehicleMake.map((vehicle) => (
@@ -73,9 +73,9 @@ export const NewVehicleModelForm = observer(() => {
               </option>
             ))}
           </select>
-          <label>Name for Vehicle Model: </label>
+          <label>Name: </label>
           <input type="text" value={name} onChange={onChangeName} />
-          <label>Abbreviation for Vehicle Model:</label>
+          <label>Abbreviation:</label>
           <input type="text" value={abrv} onChange={onChangeAbrv} />
           <div className="alertError">{error}</div>
           <button type="submit">Add Model</button>

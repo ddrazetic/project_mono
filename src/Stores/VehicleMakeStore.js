@@ -160,7 +160,7 @@ class createVehicleMakeStore {
     if (this.orderModel) params.append("sort", "name|asc");
     else params.append("sort", "name|desc");
   };
-  setOrder = () => {
+  setOrderModel = () => {
     this.orderModel = !this.orderModel;
     this.getAllVehiclesModels();
   };
