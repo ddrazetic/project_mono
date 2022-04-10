@@ -1,4 +1,5 @@
-import vehiclesService from "../Common/VehiclesDataService";
+import VehicleMakeService from "../Common/VehicleMakeService";
+import VehicleModelService from "../Common/VehicleModelService";
 import { makeAutoObservable, runInAction } from "mobx";
 
 class createVehicleMakeStore {
@@ -22,7 +23,9 @@ class createVehicleMakeStore {
   totalVehicleModel = 1;
 
   constructor() {
-    this.vehiclesService = new vehiclesService();
+    this.VehicleMakeService = new VehicleMakeService();
+    this.VehicleModelService = new VehicleModelService();
+
     makeAutoObservable(this);
   }
   // vehicle make
@@ -71,7 +74,7 @@ class createVehicleMakeStore {
       // this.setOrder(params);
       this.setParams(params);
 
-      const data = await this.vehiclesService.get(params);
+      const data = await this.VehicleMakeService.get(params);
       runInAction(() => {
         this.vehicleMake = data.data.item;
         this.totalVehicleMake = data.data.totalRecords;
@@ -86,7 +89,7 @@ class createVehicleMakeStore {
 
   createVehicleMake = async (name, abrv) => {
     try {
-      const response = await this.vehiclesService.create({
+      const response = await this.VehicleMakeService.create({
         name: name,
         abrv: abrv,
       });
@@ -104,7 +107,7 @@ class createVehicleMakeStore {
 
   updateVehicleMake = async (id, name, abrv) => {
     try {
-      const response = await this.vehiclesService.update(id, {
+      const response = await this.VehicleMakeService.update(id, {
         name: name,
         abrv: abrv,
       });
@@ -123,7 +126,7 @@ class createVehicleMakeStore {
   };
   deleteVehicleMake = async (id) => {
     try {
-      const response = await this.vehiclesService.delete(id);
+      const response = await this.VehicleMakeService.delete(id);
       if (response.status === 204) {
         runInAction(() => {
           this.state = "success";
@@ -188,7 +191,7 @@ class createVehicleMakeStore {
       // this.setOrder(params);
       this.setParamsModel(params);
 
-      const data = await this.vehiclesService.getModels(params);
+      const data = await this.VehicleModelService.getModels(params);
       runInAction(() => {
         this.vehicleModel = data.data.item;
         this.totalVehicleModel = data.data.totalRecords;
@@ -203,7 +206,7 @@ class createVehicleMakeStore {
   };
   createVehicleModel = async (name, abrv, makeId) => {
     try {
-      const response = await this.vehiclesService.createModel({
+      const response = await this.VehicleModelService.createModel({
         name: name,
         abrv: abrv,
         makeId: makeId,
@@ -221,7 +224,7 @@ class createVehicleMakeStore {
   };
   updateVehicleModel = async (id, name, abrv, makeId) => {
     try {
-      const response = await this.vehiclesService.updateModel(id, {
+      const response = await this.VehicleModelService.updateModel(id, {
         name: name,
         abrv: abrv,
         makeId: makeId,
@@ -241,7 +244,7 @@ class createVehicleMakeStore {
   };
   deleteVehicleModel = async (id) => {
     try {
-      const response = await this.vehiclesService.deleteModel(id);
+      const response = await this.VehicleModelService.deleteModel(id);
       if (response.status === 204) {
         runInAction(() => {
           this.stateModel = "success";
