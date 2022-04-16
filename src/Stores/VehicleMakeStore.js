@@ -56,7 +56,7 @@ class createVehicleMakeStore {
     this.order = true;
   };
   setRppMax = () => {
-    this.rpp = 200;
+    this.rpp = 1000;
   };
 
   setRppVehicleMake = (value) => {

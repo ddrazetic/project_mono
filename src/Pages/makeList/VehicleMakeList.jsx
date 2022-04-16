@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useVehicleMakeStore } from "../Stores/VehicleMakeContext";
+import { useStores } from "../../Stores/StoresContex";
 import { observer } from "mobx-react";
 import ReactPaginate from "react-paginate";
-import Navigation from "./Navigation";
+import Navigation from "../../Components/Navigation";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ const customStyles = {
 };
 
 const VehicleMakeList = observer(() => {
-  const vehicleMakeStore = useVehicleMakeStore();
+  const { vehicleMakeStore } = useStores();
   const [search, setSearch] = useState("");
   const [name, setName] = useState("");
   const [id, setId] = useState("");

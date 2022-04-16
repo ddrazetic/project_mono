@@ -1,17 +1,17 @@
-import { NewVehicleMakeForm } from "./Components/NewVehicleMakeForm";
-import { NewVehicleModelForm } from "./Components/NewVehicleModelForm";
-import VehicleModelList from "./Components/VehicleModelList";
-import VehicleMakeList from "./Components/VehicleMakeList";
-import { VehicleMakeProvider } from "./Stores/VehicleMakeContext";
-import createVehicleMakeStore from "./Stores/VehicleMakeStore";
+import { NewVehicleMakeForm } from "./Pages/createMake/NewVehicleMakeForm.jsx";
+import { NewVehicleModelForm } from "./Pages/createModel/NewVehicleModelForm.jsx";
+import VehicleModelList from "./Pages/modelList/VehicleModelList.jsx";
+import VehicleMakeList from "./Pages/makeList/VehicleMakeList.jsx";
+import { StoresProvider } from "./Stores/StoresContex";
+import RootStore from "./Stores/RootStore";
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./Pages/Home";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const store = new createVehicleMakeStore();
+const store = new RootStore();
 function App() {
   return (
-    <VehicleMakeProvider store={store}>
+    <StoresProvider store={store}>
       <div className="siteContent">
         <nav>
           <Link className="navTitle" to="/">
@@ -41,7 +41,7 @@ function App() {
           <p className="footerText">copyrights @ company Vehicles</p>
         </footer>
       </div>
-    </VehicleMakeProvider>
+    </StoresProvider>
   );
 }
 
