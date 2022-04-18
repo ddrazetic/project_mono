@@ -2,7 +2,7 @@ import VehicleMakeService from "../../Common/VehicleMakeService";
 import { makeAutoObservable, runInAction } from "mobx";
 import { toast } from "react-toastify";
 
-class createMakeStore {
+class CreateMakeStore {
   state = "initial";
   name = "";
   abrv = "";
@@ -78,4 +78,4 @@ class createMakeStore {
   };
 }
 
-export default createMakeStore;
+export default CreateMakeStore;

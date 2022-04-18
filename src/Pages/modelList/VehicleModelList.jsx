@@ -1,116 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useStores } from "../../Stores/StoresContex";
 import { observer } from "mobx-react";
-import Navigation from "../../Components/Navigation";
+import Navigation from "../../Components/Navigation.jsx";
 import Modal from "react-modal";
 import ReactPaginate from "react-paginate";
-import { toast } from "react-toastify";
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    backgroundColor: "#ebb7b7",
-    boxShadow: "10px 10px 8px #e6a8a8",
-    textShadow: "3px 3px 5px #8f3737",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
 
 const VehicleModelList = observer(() => {
-  const {vehicleMakeStore} = useStores();
-  const [search, setSearch] = useState(vehicleMakeStore.selectedMakeId);
-  const [name, setName] = useState("");
-  const [id, setId] = useState("");
-  const [abrv, setAbrv] = useState("");
-  const [makeId, setmakeId] = useState("");
-  const [error, setError] = useState("");
-  const onChangeName = (e) => {
-    setName(e.target.value);
-    setError("");
-  };
-  const onChangeAbrv = (e) => {
-    setAbrv(e.target.value);
-    setError("");
-  };
-  const onChangeSearch = (e) => {
-    e.preventDefault();
-    setSearch(e.target.value);
-    submitSearch(e.target.value);
-  };
-
-  const submitSearch = (searchI) => {
-    vehicleMakeStore.setSearchinputModel(`WHERE makeId LIKE '%${searchI}%'`);
-    vehicleMakeStore.getAllVehiclesModels();
-  };
-
-  const [modalIsOpen, setIsOpen] = useState(false);
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
+  const { modelListStore} = useStores();
+ 
   Modal.setAppElement("#root");
 
   useEffect(() => {
-    vehicleMakeStore.setDefaultValuesModel();
-    vehicleMakeStore.setSearchinputModel(
-      `WHERE makeId LIKE '%${vehicleMakeStore.selectedMakeId}%'`
-    );
-    vehicleMakeStore.getAllVehiclesModels();
-    vehicleMakeStore.setRppMax();
-    vehicleMakeStore.getAllVehiclesMake();
-
-    vehicleMakeStore.setSelectedName("", "");
-  }, [vehicleMakeStore]);
-
-  const setRpp = (e) => {
-    e.preventDefault();
-    vehicleMakeStore.setRppVehicleModel(e.target.value);
-    vehicleMakeStore.getAllVehiclesModels();
-  };
-
-  const handlePageClick = async (data) => {
-    let currentPage = data.selected + 1;
-    vehicleMakeStore.pageModel = currentPage;
-    vehicleMakeStore.getAllVehiclesModels();
-  };
-  const validateAll = () => {
-    if (name.length < 1 || abrv.length < 1) {
-      setError("Both fields are required!");
-      return true;
-    }
-  };
-  const setCurrentModel = (id, name, abrv, makeId) => {
-    setName(name);
-    setId(id);
-    setAbrv(abrv);
-    setmakeId(makeId);
-    openModal();
-  };
-  const updateModel = (e) => {
-    e.preventDefault();
-    if (!validateAll()) {
-      vehicleMakeStore.updateVehicleModel(id, name, abrv, makeId);
-      setName("");
-      setAbrv("");
-      setError("");
-      setmakeId("");
-      closeModal();
-      notifyUpdateModel();
-    }
-  };
-  const deleteModel = (e, id) => {
-    e.preventDefault();
-    vehicleMakeStore.deleteVehicleModel(id);
-    notifyDeleteModel();
-  };
-  const notifyDeleteModel = () => toast("Deleted Vehicle model!");
-  const notifyUpdateModel = () => toast("Updated Vehicle model!");
+    modelListStore.initialRun();
+  }, [ modelListStore]);
 
   return (
     <>
@@ -121,12 +23,12 @@ const VehicleModelList = observer(() => {
         <select
           type="text"
           className="inputSearch"
-          value={search}
-          onChange={onChangeSearch}
+          value={modelListStore.search}
+          onChange={modelListStore.onChangeSearch}
         >
           {" "}
           <option value={""}>all Models</option>
-          {vehicleMakeStore.vehicleMake.map((vehicle) => (
+          {modelListStore.vehicleMake.map((vehicle) => (
             <option key={vehicle.id} value={vehicle.id}>
               {" "}
               {vehicle.name}
@@ -134,7 +36,7 @@ const VehicleModelList = observer(() => {
           ))}
         </select>
       </form>
-
+      <div className="containerTable">
       <table className="table tableBlue">
         <thead>
           <tr>
@@ -146,12 +48,12 @@ const VehicleModelList = observer(() => {
           </tr>
         </thead>
         <tbody>
-          {vehicleMakeStore.vehicleModel.map((vehicle) => (
+          {modelListStore.vehicleModel.map((vehicle) => (
             <tr key={vehicle.id}>
               <td>{vehicle.name}</td>
               <td>{vehicle.abrv}</td>
               <td>
-                {vehicleMakeStore.vehicleMake.map((vehicleM) => {
+                {modelListStore.vehicleMake.map((vehicleM) => {
                   if (vehicleM.id === vehicle.makeId) return vehicleM.name;
                   else return null;
                 })}
@@ -159,7 +61,7 @@ const VehicleModelList = observer(() => {
               <td>
                 <button
                   onClick={() =>
-                    setCurrentModel(
+                    modelListStore.setCurrentModel(
                       vehicle.id,
                       vehicle.name,
                       vehicle.abrv,
@@ -174,7 +76,7 @@ const VehicleModelList = observer(() => {
               <td>
                 <button
                   className="deleteButton"
-                  onClick={(e) => deleteModel(e, vehicle.id)}
+                  onClick={(e) => modelListStore.deleteModel(e, vehicle.id)}
                 >
                   Delete
                 </button>
@@ -189,11 +91,11 @@ const VehicleModelList = observer(() => {
           nextLabel={"next"}
           breakLabel={"..."}
           pageCount={Math.ceil(
-            vehicleMakeStore.totalVehicleModel / vehicleMakeStore.rppModel
+            modelListStore.totalVehicleModel / modelListStore.rppModel
           )}
           marginPagesDisplayed={2}
           pageRangeDisplayed={3}
-          onPageChange={handlePageClick}
+          onPageChange={modelListStore.handlePageClick}
           containerClassName={"pagination "}
           pageClassName={"page-item page-item-blue"}
           pageLinkClassName={"page-link"}
@@ -207,8 +109,8 @@ const VehicleModelList = observer(() => {
         />
         <select
           className="selectForm selectForm-blue"
-          value={vehicleMakeStore.rppModel}
-          onChange={setRpp}
+          value={modelListStore.rppModel}
+          onChange={modelListStore.setRpp}
           type="text"
         >
           <option value={5}>5</option>
@@ -219,29 +121,29 @@ const VehicleModelList = observer(() => {
         </select>
         <button
           className="buttonOrder buttonOrderBlue"
-          onClick={() => vehicleMakeStore.setOrderModel()}
+          onClick={() => modelListStore.setOrderModel()}
         >
-          {vehicleMakeStore.orderModel ? "ASC" : "DESC"}
+          {modelListStore.orderModel ? "ASC" : "DESC"}
         </button>
       </div>
-      <p>{vehicleMakeStore.selectedMakeName}</p>
+      </div>
 
       <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
+        isOpen={modelListStore.modalIsOpen}
+        onRequestClose={modelListStore.closeModal}
+        style={modelListStore.customStyles}
         contentLabel="Example Modal"
       >
-        <button className="buttonClose" onClick={closeModal}>
+        <button className="buttonClose" onClick={modelListStore.closeModal}>
           X
         </button>
         <h2 className="headerEdit">Update this Model</h2>
-        <form className="editVehicleMake" onSubmit={updateModel}>
+        <form className="editVehicleMake" onSubmit={modelListStore.updateModel}>
           <label>Name for Vehicle Model: </label>
-          <input value={name} onChange={onChangeName} type="text" />
+          <input value={modelListStore.name} onChange={modelListStore.onChangeName} type="text" />
           <label>Abbreviation for Vehicle Model:</label>
-          <input value={abrv} onChange={onChangeAbrv} type="text" />
-          <div className="alertError">{error}</div>
+          <input value={modelListStore.abrv} onChange={modelListStore.onChangeAbrv} type="text" />
+          <div className="alertError">{modelListStore.error}</div>
           <button type="submit">Update</button>
         </form>
       </Modal>

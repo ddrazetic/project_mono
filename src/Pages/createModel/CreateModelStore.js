@@ -1,16 +1,23 @@
+import VehicleMakeService from "../../Common/VehicleMakeService";
 import VehicleModelService from "../../Common/VehicleModelService";
 import { makeAutoObservable, runInAction } from "mobx";
 import { toast } from "react-toastify";
 
-class createModelStore {
+class CreateModelStore {
   state = "initial";
+  stateModel = "initial";
   name = "";
   abrv = "";
   error = "";
   makeId = "";
+  vehicleMake = [];
+  rpp = 1000;
+  page = 1;
 
-  constructor() {
+  constructor(rootStore) {
+    this.rootStore = rootStore;
     this.VehicleModelService = new VehicleModelService();
+    this.VehicleMakeService = new VehicleMakeService();
     makeAutoObservable(this);
   }
 
@@ -29,7 +36,6 @@ class createModelStore {
 
   onChangeName = (e) => {
     this.setName(e.target.value);
-    // console.log(this.name);
     this.setError("");
   };
   onChangeAbrv = (e) => {
@@ -42,6 +48,11 @@ class createModelStore {
     this.setError("");
   };
 
+  initialRun = () => {
+    this.setMakeId(this.rootStore.makeListStore.selectedMakeId);
+    this.getAllVehiclesMake();
+    this.rootStore.makeListStore.setSelectedName("", "");
+  };
   validateAll = () => {
     if (
       this.name.length < 1 ||
@@ -68,7 +79,6 @@ class createModelStore {
       this.setName("");
       this.setAbrv("");
       this.setError("");
-      //   vehicleMakeStore.getAllVehiclesModels();
     }
   };
 
@@ -91,34 +101,25 @@ class createModelStore {
     }
   };
 
-  //   addVehicleMake = (e) => {
-  //     e.preventDefault();
-  //     if (!this.validateAll()) {
-  //       this.createVehicleMake(this.name, this.abrv);
-  //       this.notifyCreateMake();
-  //       this.setName("");
-  //       this.setAbrv("");
-  //       this.setError("");
-  //     }
-  //   };
+  getAllVehiclesMake = async () => {
+    this.state = "pending";
+    try {
+      const params = new URLSearchParams({
+        rpp: this.rpp,
+        page: this.page,
+      });
 
-  //   createVehicleMake = async (name, abrv) => {
-  //     try {
-  //       const response = await this.VehicleMakeService.create({
-  //         name: name,
-  //         abrv: abrv,
-  //       });
-  //       if (response.status === 201) {
-  //         runInAction(() => {
-  //           this.state = "success";
-  //         });
-  //       }
-  //     } catch (error) {
-  //       runInAction(() => {
-  //         this.state = "error";
-  //       });
-  //     }
-  //   };
+      const data = await this.VehicleMakeService.get(params);
+      runInAction(() => {
+        this.vehicleMake = data.data.item;
+        this.state = "success";
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.state = "error";
+      });
+    }
+  };
 }
 
-export default createModelStore;
+export default CreateModelStore;

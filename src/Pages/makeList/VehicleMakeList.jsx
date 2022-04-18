@@ -1,127 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useStores } from "../../Stores/StoresContex";
 import { observer } from "mobx-react";
 import ReactPaginate from "react-paginate";
-import Navigation from "../../Components/Navigation";
+import Navigation from "../../Components/Navigation.jsx";
 import Modal from "react-modal";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    backgroundColor: "#ebb7b7",
-    boxShadow: "10px 10px 8px #e6a8a8",
-    textShadow: "3px 3px 5px #8f3737",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
 
 const VehicleMakeList = observer(() => {
-  const { vehicleMakeStore } = useStores();
-  const [search, setSearch] = useState("");
-  const [name, setName] = useState("");
-  const [id, setId] = useState("");
-  const [abrv, setAbrv] = useState("");
-  const [error, setError] = useState("");
+  const {  makeListStore } = useStores();
   const navigate = useNavigate();
-  // const history = useHistory();
-  const onChangeName = (e) => {
-    setName(e.target.value);
-    setError("");
-  };
-  const onChangeAbrv = (e) => {
-    setAbrv(e.target.value);
-    setError("");
-  };
-
+ 
   useEffect(() => {
-    vehicleMakeStore.setDefaultValuesMake();
-    vehicleMakeStore.getAllVehiclesMake();
-  }, [vehicleMakeStore]);
-  const submitSearch = (e) => {
-    e.preventDefault();
-    // vehicleMakeStore.searchInput = `WHERE name LIKE '%${search}%'`;
-    vehicleMakeStore.setSearchinputMake(`WHERE name LIKE '%${search}%'`);
-    vehicleMakeStore.getAllVehiclesMake();
-  };
-  const setRpp = (e) => {
-    e.preventDefault();
-    vehicleMakeStore.setRppVehicleMake(e.target.value);
-    vehicleMakeStore.getAllVehiclesMake();
-  };
-
-  const handlePageClick = async (data) => {
-    let currentPage = data.selected + 1;
-    vehicleMakeStore.page = currentPage;
-    vehicleMakeStore.getAllVehiclesMake();
-  };
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  function closeModal() {
-    setIsOpen(false);
-  }
+    makeListStore.initialRun()
+  }, [makeListStore]);
   Modal.setAppElement("#root");
-
-  const validateAll = () => {
-    if (name.length < 1 || abrv.length < 1) {
-      setError("Both fields are required!");
-      return true;
-    }
-  };
-
-  const setCurrentMake = (id, name, abrv) => {
-    setName(name);
-    setId(id);
-    setAbrv(abrv);
-    openModal();
-  };
-  const updateMake = (e) => {
-    e.preventDefault();
-    if (!validateAll()) {
-      vehicleMakeStore.updateVehicleMake(id, name, abrv);
-      setName("");
-      setAbrv("");
-      setError("");
-      closeModal();
-      notifyUpdateMake();
-    }
-  };
-  const deleteMake = (e, id) => {
-    e.preventDefault();
-    vehicleMakeStore.deleteVehicleMake(id);
-    notifyDeleteMake();
-  };
-
-  const notifyDeleteMake = () =>
-    toast("Deleted Vehicle make and all of his models!");
-  const notifyUpdateMake = () => toast("Updated Vehicle make!");
 
   return (
     <>
       <Navigation />
       <h2 className="headerList">List of Vehicle Makes</h2>
-      <form className="formSearch" onSubmit={submitSearch}>
+      <form className="formSearch" onSubmit={makeListStore.submitSearch}>
         <label>Search by name:</label>
         <input
           type="text"
           className="inputSearch"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={makeListStore.search}
+          onChange={(e) => makeListStore.setSearch(e.target.value)}
         />
         <button className="searchSubmit" type="submit">
           Search
         </button>
       </form>
-
+<div className="containerTable">
       <table className="table">
         <thead>
           <tr>
@@ -133,14 +43,14 @@ const VehicleMakeList = observer(() => {
           </tr>
         </thead>
         <tbody>
-          {vehicleMakeStore.vehicleMake.map((vehicle) => (
+          {makeListStore.vehicleMake.map((vehicle) => (
             <tr key={vehicle.id}>
               <td>{vehicle.name}</td>
               <td>{vehicle.abrv}</td>
               <td>
                 <button
                   onClick={() =>
-                    setCurrentMake(vehicle.id, vehicle.name, vehicle.abrv)
+                    makeListStore.setCurrentMake(vehicle.id, vehicle.name, vehicle.abrv)
                   }
                   className="updateButton"
                 >
@@ -150,7 +60,7 @@ const VehicleMakeList = observer(() => {
               <td>
                 <button
                   className="deleteButton"
-                  onClick={(e) => deleteMake(e, vehicle.id)}
+                  onClick={(e) => makeListStore.deleteMake(e, vehicle.id)}
                 >
                   Delete
                 </button>
@@ -158,7 +68,7 @@ const VehicleMakeList = observer(() => {
               <td>
                 <button
                   onClick={() => {
-                    vehicleMakeStore.setSelectedName(vehicle.id, vehicle.name);
+                    makeListStore.setSelectedName(vehicle.id, vehicle.name);
                     navigate("/createvehiclemodel");
                   }}
                   className="updateButton"
@@ -169,7 +79,7 @@ const VehicleMakeList = observer(() => {
               <td>
                 <button
                   onClick={() => {
-                    vehicleMakeStore.setSelectedName(vehicle.id, vehicle.name);
+                    makeListStore.setSelectedName(vehicle.id, vehicle.name);
                     navigate("/vehiclemodel");
                   }}
                   className="updateButton"
@@ -187,11 +97,11 @@ const VehicleMakeList = observer(() => {
           nextLabel={"next"}
           breakLabel={"..."}
           pageCount={Math.ceil(
-            vehicleMakeStore.totalVehicleMake / vehicleMakeStore.rpp
+            makeListStore.totalVehicleMake / makeListStore.rpp
           )}
           marginPagesDisplayed={2}
           pageRangeDisplayed={3}
-          onPageChange={handlePageClick}
+          onPageChange={makeListStore.handlePageClick}
           containerClassName={"pagination "}
           pageClassName={"page-item"}
           pageLinkClassName={"page-link"}
@@ -205,8 +115,8 @@ const VehicleMakeList = observer(() => {
         />
         <select
           className="selectForm"
-          value={vehicleMakeStore.rpp}
-          onChange={setRpp}
+          value={makeListStore.rpp}
+          onChange={makeListStore.setRpp}
           type="text"
         >
           <option value={5}>5</option>
@@ -217,28 +127,28 @@ const VehicleMakeList = observer(() => {
         </select>
         <button
           className="buttonOrder"
-          onClick={() => vehicleMakeStore.setOrder()}
+          onClick={() => makeListStore.setOrder()}
         >
-          {vehicleMakeStore.order ? "ASC" : "DESC"}
+          {makeListStore.order ? "ASC" : "DESC"}
         </button>
       </div>
-
+      </div>
       <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
+        isOpen={makeListStore.modalIsOpen}
+        onRequestClose={makeListStore.closeModal}
+        style={makeListStore.customStyles}
         contentLabel="Example Modal"
       >
-        <button className="buttonClose" onClick={closeModal}>
+        <button className="buttonClose" onClick={makeListStore.closeModal}>
           X
         </button>
         <h2 className="headerEdit">Update this make</h2>
-        <form className="editVehicleMake" onSubmit={updateMake}>
+        <form className="editVehicleMake" onSubmit={makeListStore.updateMake}>
           <label>Name for Vehicle Make: </label>
-          <input value={name} onChange={onChangeName} type="text" />
+          <input value={makeListStore.name} onChange={makeListStore.onChangeName} type="text" />
           <label>Abbreviation for Vehicle Make:</label>
-          <input value={abrv} onChange={onChangeAbrv} type="text" />
-          <div className="alertError">{error}</div>
+          <input value={makeListStore.abrv} onChange={makeListStore.onChangeAbrv} type="text" />
+          <div className="alertError">{makeListStore.error}</div>
           <button type="submit">Update</button>
         </form>
       </Modal>
