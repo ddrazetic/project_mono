@@ -1,5 +1,7 @@
 import { NewVehicleMakeForm } from "./Pages/createMake/NewVehicleMakeForm.jsx";
 import { NewVehicleModelForm } from "./Pages/createModel/NewVehicleModelForm.jsx";
+import UpdateMake from "./Pages/updateMake/UpdateMake.jsx";
+import UpdateModel from "./Pages/updateModel/UpdateModel.jsx";
 import VehicleModelList from "./Pages/modelList/VehicleModelList.jsx";
 import VehicleMakeList from "./Pages/makeList/VehicleMakeList.jsx";
 import { StoresProvider } from "./Stores/StoresContex";
@@ -22,8 +24,10 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/vehiclemake" element={<VehicleMakeList />} />
           <Route path="/createvehiclemake" element={<NewVehicleMakeForm />} />
+          <Route path="/updatevehiclemake" element={<UpdateMake />} />
           <Route path="/vehiclemodel" element={<VehicleModelList />} />
           <Route path="/createvehiclemodel" element={<NewVehicleModelForm />} />
+          <Route path="/updatevehiclemodel" element={<UpdateModel />} />
         </Routes>
 
         <ToastContainer

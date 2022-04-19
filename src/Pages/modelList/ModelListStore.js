@@ -8,7 +8,6 @@ class ModelListStore {
   state = "initial";
   name = "";
   abrv = "";
-  error = "";
   makeId = "";
   id = "";
   search = "";
@@ -27,6 +26,7 @@ class ModelListStore {
   searchInputModel = "";
   rpp = 1000;
   page = 1;
+  deleteId = "";
   customStyles = {
     content: {
       top: "50%",
@@ -54,9 +54,7 @@ class ModelListStore {
   setAbrv = (value) => {
     this.abrv = value;
   };
-  setError = (value) => {
-    this.error = value;
-  };
+
   setId = (value) => {
     this.id = value;
   };
@@ -65,15 +63,6 @@ class ModelListStore {
   };
   setSearch = (value) => {
     this.search = value;
-  };
-
-  onChangeName = (e) => {
-    this.setName(e.target.value);
-    this.setError("");
-  };
-  onChangeAbrv = (e) => {
-    this.setAbrv(e.target.value);
-    this.setError("");
   };
 
   onChangeSearch = (e) => {
@@ -185,19 +174,12 @@ class ModelListStore {
     this.pageModel = currentPage;
     this.getAllVehiclesModels();
   };
-  validateAll = () => {
-    if (this.name.length < 1 || this.abrv.length < 1) {
-      this.setError("Both fields are required!");
-      return true;
-    }
-  };
 
   setCurrentModel = (id, name, abrv, makeId) => {
     this.setName(name);
     this.setId(id);
     this.setAbrv(abrv);
     this.setmakeId(makeId);
-    this.openModal();
   };
 
   updateModel = (e) => {
@@ -215,12 +197,13 @@ class ModelListStore {
 
   deleteModel = (e, id) => {
     e.preventDefault();
-    this.deleteVehicleModel(id);
+    this.deleteVehicleModel(this.deleteId);
+    this.setDeleteId("");
+    this.closeModal();
     this.notifyDeleteModel();
   };
 
   notifyDeleteModel = () => toast("Deleted Vehicle model!");
-  notifyUpdateModel = () => toast("Updated Vehicle model!");
 
   updateVehicleModel = async (id, name, abrv, makeId) => {
     try {
@@ -256,6 +239,13 @@ class ModelListStore {
       });
     }
     this.getAllVehiclesModels();
+  };
+  setDeleteId = (value) => {
+    this.deleteId = value;
+  };
+  openModalDelete = (id) => {
+    this.setDeleteId(id);
+    this.openModal();
   };
 }
 

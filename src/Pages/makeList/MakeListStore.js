@@ -7,7 +7,6 @@ class MakeListStore {
   state = "initial";
   name = "";
   abrv = "";
-  error = "";
   id = "";
   search = "";
   vehicleMake = [];
@@ -24,6 +23,8 @@ class MakeListStore {
   rppModel = 1000;
   pageModel = 1;
   stateModel = "initial";
+  deleteId = "";
+
   customStyles = {
     content: {
       top: "50%",
@@ -50,9 +51,7 @@ class MakeListStore {
   setAbrv = (value) => {
     this.abrv = value;
   };
-  setError = (value) => {
-    this.error = value;
-  };
+
   setId = (value) => {
     this.id = value;
   };
@@ -60,28 +59,12 @@ class MakeListStore {
     this.search = value;
   };
 
-  onChangeName = (e) => {
-    this.setName(e.target.value);
-    this.setError("");
-  };
-  onChangeAbrv = (e) => {
-    this.setAbrv(e.target.value);
-    this.setError("");
-  };
   initialRun = () => {
     this.setDefaultValuesMake();
     this.getAllVehiclesMake();
   };
 
-  validateAll = () => {
-    if (this.name.length < 1 || this.abrv.length < 1) {
-      this.setError("Both fields are required!");
-      return true;
-    }
-  };
-
   notifyDeleteMake = () => toast("Deleted Vehicle make and all of his models!");
-  notifyUpdateMake = () => toast("Updated Vehicle make!");
 
   setDefaultValuesMake = () => {
     this.rpp = 5;
@@ -164,45 +147,16 @@ class MakeListStore {
     this.setName(name);
     this.setId(id);
     this.setAbrv(abrv);
-    this.openModal();
   };
 
-  updateMake = (e) => {
+  deleteMake = (e) => {
     e.preventDefault();
-    if (!this.validateAll()) {
-      this.updateVehicleMake(this.id, this.name, this.abrv);
-      this.setName("");
-      this.setAbrv("");
-      this.setError("");
-      this.closeModal();
-      this.notifyUpdateMake();
-    }
-  };
-  deleteMake = (e, id) => {
-    e.preventDefault();
-    this.deleteVehicleMake(id);
+    this.deleteVehicleMake(this.deleteId);
+    this.setDeleteId("");
+    this.closeModal();
     this.notifyDeleteMake();
   };
 
-  updateVehicleMake = async (id, name, abrv) => {
-    try {
-      const response = await this.VehicleMakeService.update(id, {
-        name: name,
-        abrv: abrv,
-      });
-
-      if (response.status === 200) {
-        runInAction(() => {
-          this.state = "success";
-        });
-      }
-    } catch (error) {
-      runInAction(() => {
-        this.state = "error";
-      });
-    }
-    this.getAllVehiclesMake();
-  };
   deleteVehicleMake = async (id) => {
     try {
       const response = await this.VehicleMakeService.delete(id);
@@ -264,6 +218,13 @@ class MakeListStore {
   setSelectedName = (id, name) => {
     this.selectedMakeName = name;
     this.selectedMakeId = id;
+  };
+  setDeleteId = (value) => {
+    this.deleteId = value;
+  };
+  openModalDelete = (id) => {
+    this.setDeleteId(id);
+    this.openModal();
   };
 }
 
