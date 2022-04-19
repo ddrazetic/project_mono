@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { useStores } from "../../Stores/StoresContex";
 import { observer } from "mobx-react";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate";
 import Navigation from "../../Components/Navigation.jsx";
 import Modal from "react-modal";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import List from "../../Components/List";
+import Pagination from "../../Components/Pagination";
 
 const VehicleMakeList = observer(() => {
   const { makeListStore } = useStores();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     makeListStore.initialRun();
@@ -31,7 +33,51 @@ const VehicleMakeList = observer(() => {
           Search
         </button>
       </form>
+
       <div className="containerTable">
+        <List
+          data={makeListStore.vehicleMake}
+          openModalDelete={makeListStore.openModalDelete}
+          update={makeListStore.setCurrentMake}
+          pathToUpdate={"updatevehiclemake"}
+          modelTable={false}
+          setSelectedName={makeListStore.setSelectedName}
+        />
+        <Pagination
+          totalNumber={makeListStore.totalVehicleMake}
+          rpp={makeListStore.rpp}
+          handlePageClick={makeListStore.handlePageClick}
+          setRpp={makeListStore.setRpp}
+          setOrder={makeListStore.setOrder}
+          order={makeListStore.order}
+        />
+      </div>
+      <Modal
+        isOpen={makeListStore.modalIsOpen}
+        onRequestClose={makeListStore.closeModal}
+        style={makeListStore.customStyles}
+        contentLabel="Example Modal"
+      >
+        <button className="buttonClose" onClick={makeListStore.closeModal}>
+          X
+        </button>
+        <h2 className="headerEdit">Are you sure to delete this Make?</h2>
+        <div className="buttonsContainer">
+          <button className="buttonDelete" onClick={makeListStore.deleteMake}>
+            Yes
+          </button>
+          <button className="buttonDelete" onClick={makeListStore.closeModal}>
+            No
+          </button>
+        </div>
+      </Modal>
+    </>
+  );
+});
+
+export default VehicleMakeList;
+
+/* <div className="containerTable">
         <table className="table">
           <thead>
             <tr>
@@ -137,28 +183,4 @@ const VehicleMakeList = observer(() => {
             {makeListStore.order ? "ASC" : "DESC"}
           </button>
         </div>
-      </div>
-      <Modal
-        isOpen={makeListStore.modalIsOpen}
-        onRequestClose={makeListStore.closeModal}
-        style={makeListStore.customStyles}
-        contentLabel="Example Modal"
-      >
-        <button className="buttonClose" onClick={makeListStore.closeModal}>
-          X
-        </button>
-        <h2 className="headerEdit">Are you sure to delete this Make?</h2>
-        <div className="buttonsContainer">
-          <button className="buttonDelete" onClick={makeListStore.deleteMake}>
-            Yes
-          </button>
-          <button className="buttonDelete" onClick={makeListStore.closeModal}>
-            No
-          </button>
-        </div>
-      </Modal>
-    </>
-  );
-});
-
-export default VehicleMakeList;
+      </div> */

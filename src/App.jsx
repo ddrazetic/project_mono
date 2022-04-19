@@ -6,7 +6,7 @@ import VehicleModelList from "./Pages/modelList/VehicleModelList.jsx";
 import VehicleMakeList from "./Pages/makeList/VehicleMakeList.jsx";
 import { StoresProvider } from "./Stores/StoresContex";
 import RootStore from "./Stores/RootStore";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 import Home from "./Pages/Home";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,6 +28,7 @@ function App() {
           <Route path="/vehiclemodel" element={<VehicleModelList />} />
           <Route path="/createvehiclemodel" element={<NewVehicleModelForm />} />
           <Route path="/updatevehiclemodel" element={<UpdateModel />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 
         <ToastContainer
